@@ -86,9 +86,9 @@ Write the runtimes in terms of `n=len(container)` using big-O notation.
 
 |                        | `str`  | `list` | `deque` |
 | ---------------------- | ------ | ------ | ------- |
-| `check_palindrome_1`   | $O(n)$ |        |         |
-| `check_palindrome_2`   |        |        |         |
-| `check_palindrome_3`   |   --   |        |         |
+| `check_palindrome_1`   | $O(n)$ | $O(n)$ | $O(n^2)$|
+| `check_palindrome_2`   | $O(n)$ | $O(n)$ | $O(n)$  |
+| `check_palindrome_3`   |   --   |$O(n^2)$| $O(n)$  |
 
 > **NOTE**:
 > The `str` type is *immutable* and so does not support being modified.
@@ -138,11 +138,11 @@ $ python3 -m timeit -s 'import palindrome; from collections import deque; xs=deq
 
 Complete the following table with actual measured runtimes by substituting the values for `xs` and the function in the command above.
 
-|                        | `xs=("1"*65536)` | `xs=([1]*65536)` | `xs=deque([1]*65536)` |
+|  (in msec)             | `xs=("1"*65536)` | `xs=([1]*65536)` | `xs=deque([1]*65536)` |
 | ---------------------- | ---------------- | ---------------- | --------------------- |
-| `check_palindrome_1`   |                  |                  |                       |
-| `check_palindrome_2`   |                  |                  |                       |
-| `check_palindrome_3`   |       --         |                  |                       |
+| `check_palindrome_1`   |       4.05       |       3.31       |         54.8          |
+| `check_palindrome_2`   |       1.84       |       1.8        |         1.84          |
+| `check_palindrome_3`   |       --         |       127        |         2.46          |
 
 You should observe that the slow runtimes here correspond with the $O(n^2)$ asymptotic runtimes,
 and the fast runtimes correspond with the $O(n)$ runtimes.
@@ -170,12 +170,12 @@ $ python3 -m timeit -s "import palindrome; from collections import deque; xs=$CO
 The output runtime of the command above should be placed in the top right corner of the table below.
 Complete the table by modifying the `N` and `CONTAINER` variables in the shell code above for each cell.
 
-|                        | `CONTAINER=list` | `CONTAINER=deque`     |
+| (in msec, unless spec.)| `CONTAINER=list` | `CONTAINER=deque`     |
 | ---------------------- | ---------------- | --------------------- |
-| `N=16`                 |                  |                       |
-| `N=17`                 |                  |                       |
-| `N=18`                 |                  |                       |
-| `N=19`                 |                  |                       |
+| `N=16`                 |        127       |         2.45          |
+| `N=17`                 |        612       |         4.91          |
+| `N=18`                 |        3.87 sec  |         9.8           |
+| `N=19`                 |        19.1 sec  |         19.6          |
 
 You should observe that the quadratic algorithm/container combination gets *really* slow *really* fast.
 The takeaway: **$O(n^2)$ is bad**.
